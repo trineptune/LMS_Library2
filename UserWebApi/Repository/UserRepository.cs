@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserWebApi.Data;
 using UserWebApi.Models;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace UserWebApi.Repository
 {
@@ -15,20 +16,52 @@ namespace UserWebApi.Repository
         {
             return await _context.Users.ToListAsync();
         }
-        public async Task<User> GetUserById(int id)
+        public List<User> SearchUsers(string key)
         {
-            return await _context.Users.FindAsync(id);
+            var users = _context.Users
+    .AsEnumerable()
+    .Where(u => u.Username.Contains(key, StringComparison.OrdinalIgnoreCase) || u.UserCode.Contains(key, StringComparison.OrdinalIgnoreCase))
+    .ToList();
+            return users;
         }
-        public async Task<User> AddUser(User user)
+       
+        public async Task<User> AddUser(UserDTO userdto)
         {
-            _context.Users.Add(user);
+            var newUser = new User
+            {
+                Address = userdto.Address,
+                Email = userdto.Email,
+                Gender = userdto.Gender,
+                UserCode = userdto.UserCode,
+                Sector = userdto.Sector,
+                Password = userdto.Password,
+                Phone = userdto.Phone,
+                RoleId = userdto.RoleId,
+                Username = userdto.Username
+            };
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            return user;
+            return newUser;
         }
 
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateUser(int id, UserDTO userDTO)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+            user.Username= userDTO.Username;
+            user.Email= userDTO.Email;
+            user.Gender= userDTO.Gender;
+            user.Sector= userDTO.Sector;
+            user.Password= userDTO.Password;
+            user.Phone= userDTO.Phone;
+            user.RoleId= userDTO.RoleId;
+            user.UserCode= userDTO.UserCode;
+            user.Sector= userDTO.Sector;
+            
             await _context.SaveChangesAsync();
             return true;
         }
@@ -45,6 +78,20 @@ namespace UserWebApi.Repository
             await _context.SaveChangesAsync();
             return true;
         }
-       
+        public void UpdateUserAuthentication(int userId, string refreshToken, DateTime tokenCreated, DateTime tokenExpires)
+        {
+            // Lấy thông tin người dùng từ cơ sở dữ liệu
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user != null)
+            {
+                // Cập nhật thông tin xác thực của người dùng
+                user.RefreshToken = refreshToken;
+                user.TokenCreated = tokenCreated;
+                user.TokenExpires = tokenExpires;
+
+                _context.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+            }
+        }
     }
 }

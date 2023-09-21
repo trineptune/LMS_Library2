@@ -1,4 +1,4 @@
-using UserWebApi.Data;
+﻿using UserWebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using UserWebApi.Service;
 using UserWebApi.Controllers;
@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.Exchange.WebServices.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,9 +50,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
         };
     });
+builder.Services.AddDistributedMemoryCache(); // Cấu hình bộ nhớ cache cho phiên làm việc
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "YourSessionCookieName"; // Tên cookie phiên làm việc
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian phiên làm việc không hoạt động trước khi hết hạn
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 var app = builder.Build();
 
-
+app.UseSession();
 
 
 

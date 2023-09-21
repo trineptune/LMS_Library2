@@ -17,7 +17,7 @@ namespace UserWebApi.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "LeaderShip")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Role>>> GetUsers()
         {
             return Ok(await _repo.GetAllRoles());
         }
