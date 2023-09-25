@@ -21,10 +21,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<AuthService>();
+
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<LoginController>();
 builder.Services.AddTransient<IUser,UserRepository>();
+builder.Services.AddTransient<IRefreshToken, RefreshTokenService>();
+
 builder.Services.AddTransient<IRole, RoleRepository>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<UserDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString2")));
 builder.Services.AddSwaggerGen(options =>
@@ -54,7 +58,7 @@ builder.Services.AddDistributedMemoryCache(); // Cấu hình bộ nhớ cache ch
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = "YourSessionCookieName"; // Tên cookie phiên làm việc
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian phiên làm việc không hoạt động trước khi hết hạn
+    options.IdleTimeout = TimeSpan.FromMinutes(500000000); // Thời gian phiên làm việc không hoạt động trước khi hết hạn
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });

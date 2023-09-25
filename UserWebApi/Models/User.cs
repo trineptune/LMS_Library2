@@ -20,6 +20,7 @@ namespace UserWebApi.Models
         public DateTime TokenCreated { get; set; } = DateTime.Now;
         public DateTime TokenExpires { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
+        public string AvatarPath { get; set; }
         public virtual Role role { get; set; }
     }
 }
