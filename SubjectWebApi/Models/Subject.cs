@@ -8,11 +8,12 @@ namespace SubjectWebApi.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } 
-        public String SubJectId { get; set; }
         public string SubjectName { get; set; }
         public string Description { get; set; }
-        public String TeacherName { get;set; }
+        public int UserId {  get; set; }
         public bool star {  get; set; }
-        public ICollection<Lesson> Lession { get; set;}
+        public ICollection<Lession> Lession { get; set;}
+        public ICollection<SubjectNotification> SubjectNotification { get; set;}
+        public ICollection<Class> Class { get; set;}    
     }
 }

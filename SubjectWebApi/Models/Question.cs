@@ -11,7 +11,10 @@ namespace SubjectWebApi.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public int LessionId { get; set; }
-        public virtual Lesson lession { get; set; } 
+
+        [ForeignKey(nameof(UserId))]
+        public int UserId {  get; set; }
+        public virtual Lession lession { get; set; } 
         public ICollection<Answer> Answers { get; set; }
     }
 }

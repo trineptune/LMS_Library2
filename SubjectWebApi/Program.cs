@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using UserWebApi.Data;
+using SubjectWebApi.Data;
+using SubjectWebApi.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<UserDbContext>(options =>
+builder.Services.AddDbContext<SubjectDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString2")));
+builder.Services.AddTransient<ISubjectNofitication, SubjectNoficationRepository>();
+builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
+builder.Services.AddTransient<ILessionRepository, LessionRepository>();
+builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
+builder.Services.AddTransient<IAnswerRepository, AnswerRepository>();
+builder.Services.AddTransient<IClassrepository, ClassRepository>();
+builder.Services.AddTransient<IResourcesRepository,ResourcesRepostiory>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
