@@ -1,6 +1,5 @@
 ﻿using SubjectWebApi.DTO;
 using SubjectWebApi.Models;
-using UserWebApi.Models;
 
 namespace SubjectWebApi.Repository
 {

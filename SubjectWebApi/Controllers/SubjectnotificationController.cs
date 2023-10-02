@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SubjectWebApi.DTO;
 using SubjectWebApi.Models;
 using SubjectWebApi.Repository;
@@ -6,7 +7,7 @@ using SubjectWebApi.Repository;
 namespace SubjectWebApi.Controllers
 {
     [ApiController]
-    [Route("api/Subjectnotification")]
+    [Route("api/SubjectnotificationApi")]
     public class SubjectnotificationController : Controller
     {
         private readonly ISubjectNofitication _repo;
@@ -15,12 +16,12 @@ namespace SubjectWebApi.Controllers
             _repo = repo;
         }
         [HttpGet]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Teacher,Student")]
         public async Task<ActionResult<IEnumerable<SubjectNotification>>> GetSubjectnotification()
         {
             return Ok(await _repo.GetAllSubNotifications());
         }
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Teacher")]
         [HttpPost]
         public async Task<ActionResult<Subject>> AddSubjectNotification(SubjectNotificationDTO subjectnotificationDTO)
         {
@@ -29,7 +30,7 @@ namespace SubjectWebApi.Controllers
             return Ok(createdSubjectnotification);
         }
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Teacher")]
         public async Task<IActionResult> DeleteSubjectNotification(int id)
         {
 
@@ -43,7 +44,7 @@ namespace SubjectWebApi.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Teacher")]
         public async Task<IActionResult> UpdateSubjectNotification([FromRoute] int id,SubjectNotificationDTO subjecnotificationdto)
         {
             var result = await _repo.UpdateSubnotification(id, subjecnotificationdto);

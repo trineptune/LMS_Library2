@@ -4,7 +4,6 @@ using SubjectWebApi.DTO;
 using SubjectWebApi.Migrations;
 using SubjectWebApi.Models;
 using SubjectWebApi.Repository;
-using UserWebApi.Models;
 
 namespace SubjectWebApi.Controllers
 {
@@ -19,12 +18,12 @@ namespace SubjectWebApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "LeaderShip")]
+       // [Authorize(Roles = "LeaderShip")]
         public async Task<ActionResult<IEnumerable<Subject>>> GetSubject()
         {
             return Ok(await _repo.GetAllSubjects());
         }
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip")]
         [HttpPost]
         public async Task<ActionResult<Subject>> AddSubject(SubjectDTO subjectDTO)
         {
@@ -33,7 +32,7 @@ namespace SubjectWebApi.Controllers
             return Ok(createdSubject);
         }
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> DeleteSubject(int id)
         {
 
@@ -47,7 +46,7 @@ namespace SubjectWebApi.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> UpdateRole([FromRoute] int id, SubjectDTO subjectdto)
         {
             var result = await _repo.UpdateSubject(id, subjectdto);

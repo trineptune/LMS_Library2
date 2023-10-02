@@ -7,6 +7,7 @@ namespace SubjectWebApi.Repository
     {
         Task<IEnumerable<Lession>> GetAllLessions();
         Task<List<Lession>> GetUnapprovedLession();
+        Task<List<Lession>> GetapprovedLession();
         Task<Lession> GetLessionById(int id);
         Task<LessionDTO> AddLession(LessionDTO lessionDto);
         Task<bool> UpdateLession(int id, LessionDTO lessiondto);

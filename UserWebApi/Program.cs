@@ -19,11 +19,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddScoped<AuthService>();
-
 builder.Services.AddScoped<JwtService>();
-builder.Services.AddScoped<LoginController>();
 builder.Services.AddTransient<IUser,UserRepository>();
 builder.Services.AddTransient<IRefreshToken, RefreshTokenService>();
 

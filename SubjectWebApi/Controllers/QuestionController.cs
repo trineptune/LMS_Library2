@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SubjectWebApi.DTO;
 using SubjectWebApi.Models;
 using SubjectWebApi.Repository;
@@ -15,12 +16,12 @@ namespace SubjectWebApi.Controllers
              _repo = repo;
         }
         [HttpGet]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<ActionResult<IEnumerable<Question>>> GetQuestion()
         {
             return Ok(await _repo.GetAllQuestions());
         }
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         [HttpPost]
         public async Task<ActionResult<Question>> AddQuestion(QuestionDTO questiondto)
         {
@@ -29,7 +30,7 @@ namespace SubjectWebApi.Controllers
             return Ok(createdquestion);
         }
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> DeleteQuestion(int id)
         {
 
@@ -43,7 +44,7 @@ namespace SubjectWebApi.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        //[Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> UpdateQuestion([FromRoute] int id, QuestionDTO questiondto)
         {
             var result = await _repo.UpdateQuestion(id, questiondto);

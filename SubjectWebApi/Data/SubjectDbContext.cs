@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SubjectWebApi.Models;
-using UserWebApi.Data;
-using UserWebApi.Models;
 
 namespace SubjectWebApi.Data
 {

@@ -16,6 +16,10 @@ namespace SubjectWebApi.Repository
         {
             return await _context.Lessons.ToListAsync();
         }
+        public async Task<List<Lession>> GetapprovedLession()
+        {
+            return await _context.Lessons.Where(rf => rf.Approve).ToListAsync();
+        }
         public async Task<List<Lession>> GetUnapprovedLession()
         {
             return await _context.Lessons.Where(rf => !rf.Approve).ToListAsync();
@@ -32,7 +36,6 @@ namespace SubjectWebApi.Repository
                 Description = lessiondto.Description,
                 subjectId = lessiondto.subjectId,
                 LessonName = lessiondto.LessonName,
-
 
             };
             _context.Lessons.Add(newLession);

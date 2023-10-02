@@ -10,5 +10,6 @@ namespace SubjectWebApi.Repository
         Task<ClassDTO> AddClass(ClassDTO classdto);
         Task<bool> UpdateClass(int id, ClassDTO classdto);
         Task<bool> DeleteClass(int id);
+        List<Subject> GetSubjectsByUserId(int userId);
     }
 }

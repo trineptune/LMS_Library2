@@ -2,7 +2,6 @@
 using SubjectWebApi.Data;
 using SubjectWebApi.DTO;
 using SubjectWebApi.Models;
-
 namespace SubjectWebApi.Repository
 {
     public class ClassRepository:IClassrepository
@@ -64,6 +63,15 @@ namespace SubjectWebApi.Repository
             _context.Classs.Remove(xClass);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public List<Subject> GetSubjectsByUserId(int userId)
+        {
+            var subjects = _context.Classs
+                .Where(c => c.userId == userId)
+                .Select(c => c.Subject)
+                .ToList();
+
+            return subjects;
         }
     }
 }

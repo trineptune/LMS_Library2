@@ -58,13 +58,18 @@ namespace SubjectWebApi.Repository
         }
         public async Task<bool> DeleteResoure(int id)
         {
-            var resoure = await _context.ResourcesFiles.FindAsync(id);
-            if (resoure == null)
+            var resource = await _context.ResourcesFiles.FindAsync(id);
+            if (resource == null)
             {
                 return false;
             }
 
-            _context.ResourcesFiles.Remove(resoure);
+            if (File.Exists(resource.FilePath))
+            {
+                File.Delete(resource.FilePath);
+            }
+
+            _context.ResourcesFiles.Remove(resource);
             await _context.SaveChangesAsync();
             return true;
         }
