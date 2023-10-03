@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SubjectWebApi.Data;
 using SubjectWebApi.DTO;
 using SubjectWebApi.Models;
@@ -7,9 +8,11 @@ namespace SubjectWebApi.Repository
     public class ClassRepository:IClassrepository
     {
         private readonly SubjectDbContext _context;
-        public ClassRepository(SubjectDbContext context)
+        private readonly ISubjectRepository _repository;
+        public ClassRepository(SubjectDbContext context, ISubjectRepository repository)
         {
             _context = context;
+            _repository = repository;
         }
         public async Task<IEnumerable<Class>> GetAllClass()
         {
@@ -73,6 +76,49 @@ namespace SubjectWebApi.Repository
 
             return subjects;
         }
+        public List<Subject> GetSubjectsByName(int userId,string SubjectName)
+        {
+            var Subject = _context.Subjects
+            .AsEnumerable()
+            .Where(u => u.SubjectName.Contains(SubjectName, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+            return Subject;
+        }
+    
+        public List<Subject> GetSubjectFavorate(int userId)
+        {
+            var subjects = _context.Classs
+         .Where(c => c.userId == userId && c.Subject.star==true)
+         .Select(c => c.Subject)
+         .ToList();
 
+            return subjects;
+        }
+        public async Task TickStartSubject(int UserId,int SubjectId)
+        {
+            var subject = GetSubjectsByUserId(UserId);
+            if (subject != null)
+            {
+                var sub=await _repository.GetSubjectById(SubjectId);
+                if (sub != null)
+                {
+                    sub.star = true;
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
+        public async Task DisTickStartSubject(int UserId, int SubjectId)
+        {
+            var subject = GetSubjectsByUserId(UserId);
+            if (subject != null)
+            {
+                var sub = await _repository.GetSubjectById(SubjectId);
+                if (sub != null)
+                {
+                    sub.star = false;
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
     }
 }

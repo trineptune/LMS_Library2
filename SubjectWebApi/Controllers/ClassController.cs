@@ -16,7 +16,7 @@ namespace SubjectWebApi.Controllers
             _repo = repo;
         }
         [HttpGet]
-        [Authorize(Roles = "LeaderShip")]
+       // [Authorize(Roles = "LeaderShip")]
         public async Task<ActionResult<IEnumerable<Class>>> GetClass()
         {
             return Ok(await _repo.GetAllClass());
@@ -30,7 +30,7 @@ namespace SubjectWebApi.Controllers
             return Ok(createdSubject);
         }
         [HttpDelete("{id}")]
-        [Authorize(Roles = "LeaderShip")]
+      //  [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> DeleteClass(int id)
         {
 
@@ -44,7 +44,7 @@ namespace SubjectWebApi.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        [Authorize(Roles = "LeaderShip")]
+       // [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> UpdateClass([FromRoute] int id, ClassDTO classdto)
         {
             var result = await _repo.UpdateClass(id, classdto);
@@ -57,11 +57,35 @@ namespace SubjectWebApi.Controllers
             return NotFound();
         }
         [HttpGet("{userId}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+       // [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public IActionResult GetSubjectsByUserId(int userId)
         {
             var subjects = _repo.GetSubjectsByUserId(userId);
             return Ok(subjects);
+        }
+        [HttpGet("searchByName")]
+        public ActionResult<IEnumerable<Subject>> SearchSubjectsByUserName(int userId, string subjectName)
+        {
+            var subjects = _repo.GetSubjectsByName(userId, subjectName);
+            return Ok(subjects);
+        }
+        [HttpPost("start")]
+        public async Task<IActionResult> StartSubject(int userId, int subjectId)
+        {
+            await _repo.TickStartSubject(userId, subjectId);
+            return Ok();
+        }
+        [HttpPost("start")]
+        public async Task<IActionResult> DisStartSubject(int userId, int subjectId)
+        {
+            await _repo.DisTickStartSubject(userId, subjectId);
+            return Ok();
+        }
+        [HttpGet("favorites")]
+        public IActionResult GetFavoriteSubjects(int userId)
+        {
+            var favoriteSubjects = _repo.GetSubjectFavorate(userId);
+            return Ok(favoriteSubjects);
         }
     }
 }

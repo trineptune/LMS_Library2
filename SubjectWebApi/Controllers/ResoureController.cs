@@ -105,7 +105,7 @@ namespace SubjectWebApi.Controllers
             return Ok(unapprovedFiles);
         }
 
-        [HttpGet("approved")]
+        [HttpGet("approvedFile")]
         [Authorize(Roles = "LeaderShip,Teacher,Student")]
         public async Task<IActionResult> GetapproveFile()
         {

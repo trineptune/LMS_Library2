@@ -18,7 +18,7 @@ namespace SubjectWebApi.Controllers
         }
 
         [HttpGet]
-       // [Authorize(Roles = "LeaderShip")]
+       [Authorize(Roles = "LeaderShip")]
         public async Task<ActionResult<IEnumerable<Subject>>> GetSubject()
         {
             return Ok(await _repo.GetAllSubjects());

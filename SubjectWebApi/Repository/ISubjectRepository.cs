@@ -10,6 +10,7 @@ namespace SubjectWebApi.Repository
         Task<SubjectDTO> AddSubject(SubjectDTO SubjectDto);
         Task<bool> UpdateSubject(int id, SubjectDTO subjectDTO);
         Task<bool> DeleteSubject(int id);
-        Task<List<Subject>> GetSubjectFavorate();
+      
+
     }
 }
