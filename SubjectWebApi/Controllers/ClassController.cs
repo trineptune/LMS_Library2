@@ -16,7 +16,7 @@ namespace SubjectWebApi.Controllers
             _repo = repo;
         }
         [HttpGet]
-        //[Authorize(Roles = "LeaderShip,Student,Teacher")]
+        [Authorize(Roles = "LeaderShip")]
         public async Task<ActionResult<IEnumerable<Class>>> GetClass()
         {
             return Ok(await _repo.GetAllClass());
@@ -57,6 +57,7 @@ namespace SubjectWebApi.Controllers
             return NotFound();
         }
         [HttpGet("{userId}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public IActionResult GetSubjectsByUserId(int userId)
         {
             var subjects = _repo.GetSubjectsByUserId(userId);

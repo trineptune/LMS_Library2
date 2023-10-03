@@ -69,6 +69,20 @@ namespace SubjectWebApi.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task StartCheck(int id)
+        {
+            var subject = await GetSubjectById(id);
+            if (subject != null)
+            {
+                subject.star = true;
+                _context.Subjects.Update(subject);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task<List<Subject>> GetSubjectFavorate()
+        {
+            return await _context.Subjects.Where(rf => rf.star).ToListAsync();
+        }
     }
 
 }

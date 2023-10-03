@@ -73,5 +73,6 @@ namespace SubjectWebApi.Repository
 
             return subjects;
         }
+
     }
 }

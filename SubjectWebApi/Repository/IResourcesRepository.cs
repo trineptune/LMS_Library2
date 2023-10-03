@@ -13,5 +13,6 @@ namespace SubjectWebApi.Repository
         Task<bool> DeleteResoure(int id);
         Task ApproveResourcesFile(int id);
         Task DisapproveResourcesFile(int id);
+        Task<List<ResourcesFile>> GetapprovedResourcesFiles();
     }
 }

@@ -104,6 +104,15 @@ namespace SubjectWebApi.Controllers
             var unapprovedFiles = await _repo.GetUnapprovedResourcesFiles();
             return Ok(unapprovedFiles);
         }
+
+        [HttpGet("approved")]
+        [Authorize(Roles = "LeaderShip,Teacher,Student")]
+        public async Task<IActionResult> GetapproveFile()
+        {
+            var approvedFiles = await _repo.GetapprovedResourcesFiles();
+            return Ok(approvedFiles);
+        }
+
         [HttpPost("{id}/approve")]
         [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> ApproveResourcesFile(int id)

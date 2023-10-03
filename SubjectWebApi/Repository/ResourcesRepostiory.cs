@@ -20,6 +20,10 @@ namespace SubjectWebApi.Repository
         {
             return await _context.ResourcesFiles.Where(rf => !rf.Approve).ToListAsync();
         }
+        public async Task<List<ResourcesFile>> GetapprovedResourcesFiles()
+        {
+            return await _context.ResourcesFiles.Where(rf => rf.Approve).ToListAsync();
+        }
         public async Task<ResourcesFile> GetResourcesFileById(int id)
         {
             return await _context.ResourcesFiles.FindAsync(id);

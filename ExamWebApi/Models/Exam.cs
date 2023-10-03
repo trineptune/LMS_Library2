@@ -9,6 +9,8 @@
         public int time {  get; set; }
         public int UserId { get; set; }
         public bool approve {  get; set; }
+        public ICollection<EssayExam> EssayExam { get; set; }
+        public ICollection<ExamContent> ExamContent { get; set; }
 
     }
 }
