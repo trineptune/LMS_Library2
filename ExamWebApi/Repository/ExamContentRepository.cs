@@ -40,7 +40,7 @@ namespace ExamWebApi.Repository
             }
             exam.Content=examdto.Content;
             exam.ExamId= examdto.ExamId;
-
+            exam.Difficulty = examdto.Difficulty;
             await _context.SaveChangesAsync();
 
             return true;

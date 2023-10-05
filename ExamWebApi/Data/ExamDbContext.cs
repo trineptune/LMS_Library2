@@ -13,6 +13,7 @@ namespace ExamWebApi.Data
         public DbSet<Exam> Exams { get; set; }
         public DbSet<ExamContent> ExamContents { get; set; }
         public DbSet<ExamAnswer> ExamAnswers { get; set; }
+        public DbSet<EssayAnswer> EssayAnswers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EssayExam>()
@@ -29,6 +30,11 @@ namespace ExamWebApi.Data
            .HasOne(e => e.ExamContent)
            .WithMany(a=>a.ExamAnswer)
            .HasForeignKey(a=>a.QuestionId);
+
+            modelBuilder.Entity<EssayAnswer>()
+           .HasOne(e => e.EssayExam)
+           .WithMany(a => a.EssayAnswer)
+           .HasForeignKey(a=>a.EssayId);
         }
 
     }

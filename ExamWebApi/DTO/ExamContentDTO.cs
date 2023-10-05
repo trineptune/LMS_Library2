@@ -4,5 +4,7 @@
     {
         public string Content { get; set; }
         public int ExamId { get; set; }
+        public string Difficulty { get; set; }
+
     }
 }

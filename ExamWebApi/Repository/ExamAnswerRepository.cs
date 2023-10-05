@@ -27,6 +27,7 @@ namespace ExamWebApi.Repository
                 Content = examdto.Content,
                 IsCorrect = examdto.IsCorrect,
                 QuestionId = examdto.QuestionId,
+                UserId = examdto.UserId,
             };
             _context.ExamAnswers.Add(newExam);
             await _context.SaveChangesAsync();
@@ -42,7 +43,7 @@ namespace ExamWebApi.Repository
             exam.Content= examdto.Content;
             exam.IsCorrect = examdto.IsCorrect;
             exam.QuestionId= examdto.QuestionId;
-
+            exam.UserId= examdto.UserId;
             await _context.SaveChangesAsync();
 
             return true;

@@ -11,6 +11,7 @@ namespace ExamWebApi.Models
         public string Content { get; set; }
         public bool IsCorrect { get; set; }
         public int QuestionId { get; set; }
+        public int UserId {  get; set; }
         public virtual ExamContent ExamContent { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace ExamWebApi.Repository
             {
                 ExamId = examdto.ExamId,
                 Titlte = examdto.Titlte,
-                Answer = examdto.Answer,
+                Difficulty=examdto.Difficulty,
             };
             _context.EssayExams.Add(newExam);
             await _context.SaveChangesAsync();
@@ -40,9 +40,8 @@ namespace ExamWebApi.Repository
                 return false;
             }
             exam.ExamId = examdto.ExamId;
-            exam.Answer = examdto.Answer;
             exam.Titlte= examdto.Titlte;
-
+            exam.Difficulty= examdto.Difficulty;
             await _context.SaveChangesAsync();
 
             return true;

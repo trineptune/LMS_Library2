@@ -10,6 +10,8 @@ namespace ExamWebApi.Models
         public int Id { get; set; }
         public string Content { get; set; }
         public int ExamId {  get; set; }
+        public string Difficulty { get; set; }
+
         public virtual Exam Exam { get; set; }
         public List<ExamAnswer> ExamAnswer { get; set; }
     }

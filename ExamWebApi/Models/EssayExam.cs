@@ -11,7 +11,8 @@ namespace ExamWebApi.Models
         public int Id { get; set; }
         public int ExamId {  get; set; }
         public string Titlte {  get; set; }
-        public string Answer {  get; set; }
         public virtual Exam Exam { get; set; }
+        public string Difficulty {  get; set; }
+        public virtual ICollection<EssayAnswer> EssayAnswer { get; set; }
     }
 }
