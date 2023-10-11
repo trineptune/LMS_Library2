@@ -16,12 +16,12 @@ namespace SubjectWebApi.Controllers
             _repo = repo;
         }
         [HttpGet]
-       // [Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip")]
         public async Task<ActionResult<IEnumerable<Class>>> GetClass()
         {
             return Ok(await _repo.GetAllClass());
         }
-       // [Authorize(Roles = "LeaderShip")]
+        [Authorize(Roles = "LeaderShip")]
         [HttpPost]
         public async Task<ActionResult<Subject>> AddClass(ClassDTO classDto)
         {
@@ -30,7 +30,7 @@ namespace SubjectWebApi.Controllers
             return Ok(createdSubject);
         }
         [HttpDelete("{id}")]
-      //  [Authorize(Roles = "LeaderShip")]
+       [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> DeleteClass(int id)
         {
 
@@ -44,7 +44,7 @@ namespace SubjectWebApi.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-       // [Authorize(Roles = "LeaderShip")]
+       [Authorize(Roles = "LeaderShip")]
         public async Task<IActionResult> UpdateClass([FromRoute] int id, ClassDTO classdto)
         {
             var result = await _repo.UpdateClass(id, classdto);
@@ -57,7 +57,7 @@ namespace SubjectWebApi.Controllers
             return NotFound();
         }
         [HttpGet("{userId}")]
-       // [Authorize(Roles = "LeaderShip,Student,Teacher")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public IActionResult GetSubjectsByUserId(int userId)
         {
             var subjects = _repo.GetSubjectsByUserId(userId);

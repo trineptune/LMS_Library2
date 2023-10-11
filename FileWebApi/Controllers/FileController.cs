@@ -13,6 +13,8 @@ namespace FileWebApi.Controllers
             _repo = repo;
         }
         [HttpGet("GetALl")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+
         public async Task<IActionResult> GetAllResourcesFiles()
         {
             var resourcesFiles = await _repo.GetAllResourcesFiles();
@@ -20,6 +22,8 @@ namespace FileWebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+
         public async Task<IActionResult> GetResourcesFileById(int id)
         {
             var resourcesFile = await _repo.GetResourcesFileById(id);
@@ -30,6 +34,8 @@ namespace FileWebApi.Controllers
             return Ok(resourcesFile);
         }
         [HttpPost("PostFile")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+
         public async Task<IActionResult> AddResourcesFile(IFormFile file, int userId, int SubjectId)
         {
             if (file == null || file.Length <= 0)
@@ -63,6 +69,8 @@ namespace FileWebApi.Controllers
             return Ok(resourcesFile.FileName);
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+
         public async Task<IActionResult> UpdateRole([FromRoute] int id, FileDTO resouredto)
         {
             var result = await _repo.UpdateResoure(id, resouredto);
@@ -75,6 +83,8 @@ namespace FileWebApi.Controllers
             return NotFound();
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+
         public async Task<IActionResult> DeleteResourcesFile(int id)
         {
             var existingResourcesFile = await _repo.GetResourcesFileById(id);

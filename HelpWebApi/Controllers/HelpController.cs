@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HelpWebApi.DTO;
 using HelpWebApi.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelpWebApi.Controllers
@@ -18,6 +19,7 @@ namespace HelpWebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> GetAllHelpRequests()
         {
             var helpRequests = await _helpRepository.GetAllHelpRequest();
@@ -25,6 +27,7 @@ namespace HelpWebApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> GetHelpRequestById(int id)
         {
             var helpRequest = await _helpRepository.GetHelpRequestById(id);
@@ -37,6 +40,7 @@ namespace HelpWebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> AddHelpRequest(HelpDTO helpdto)
         {
             var CreateHelp = await _helpRepository.AddHelpRequest(helpdto);
@@ -45,6 +49,7 @@ namespace HelpWebApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> UpdateHelpRequest(int id, HelpDTO helpdto)
         {
             if (!ModelState.IsValid)
@@ -62,6 +67,7 @@ namespace HelpWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> DeleteRequest(int id)
         {
             var success = await _helpRepository.DeleteRequest(id);
