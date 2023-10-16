@@ -12,17 +12,17 @@ namespace NotificationWebApi.Repository
         {
             _context = context;
       }
-        public async Task<IEnumerable<Notification>> GetNotificationsBy(int userId)
+        public async Task<IEnumerable<Notification>> GetNotifications(int userId)
         {
             return await _context.Notifications.Where(n => n.UserId == userId).ToListAsync();
         }
-        public async Task<List<Notification>> GetUnReadNotification()
+       public async Task<List<Notification>> GetUnReadNotification(int userId)
+{
+    return await _context.Notifications.Where(rf => !rf.Check && rf.UserId == userId).ToListAsync();
+}
+        public async Task<List<Notification>> GetReadNotification(int userId)
         {
-            return await _context.Notifications.Where(rf => !rf.Check).ToListAsync();
-        }
-        public async Task<List<Notification>> GetReadNotification()
-        {
-            return await _context.Notifications.Where(rf => rf.Check).ToListAsync();
+            return await _context.Notifications.Where(rf => rf.Check && rf.UserId == userId).ToListAsync();
         }
         public async Task<Notification> GetNotificationById(int userId, int id)
         {
@@ -70,9 +70,9 @@ namespace NotificationWebApi.Repository
             _context.Notifications.Remove(notification);
             await _context.SaveChangesAsync();
         }
-        public async Task CheckNotification(int id,int userId)
+        public async Task CheckNotification(int userId,int id)
         {
-            var Notifcation = await GetNotificationById(id,userId);
+            var Notifcation = await GetNotificationById(userId,id);
             if (Notifcation != null)
             {
                 Notifcation.Check = true;
@@ -80,9 +80,9 @@ namespace NotificationWebApi.Repository
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task UncheckNotification(int id,int userId)
+        public async Task UncheckNotification(int userid,int Id)
         {
-            var Notifcation = await GetNotificationById(id,userId);
+            var Notifcation = await GetNotificationById(userid,Id);
             if (Notifcation != null)
             {
                 Notifcation.Check = false;
