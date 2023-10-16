@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotificationWebApi.DTO;
+using NotificationWebApi.Models;
 using NotificationWebApi.Repository;
 using System;
 using System.Threading.Tasks;
@@ -19,12 +20,12 @@ namespace NotificationWebApi.Controllers
         }
 
         [HttpGet("{userId}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+       // [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> GetNotifications(int userId)
         {
             try
             {
-                var notifications = await _notificationRepository.GetNotificationsBy(userId);
+                var notifications = await _notificationRepository.GetNotifications(userId);
                 return Ok(notifications);
             }
             catch (Exception ex)
@@ -33,7 +34,7 @@ namespace NotificationWebApi.Controllers
             }
         }
         [HttpGet("{userId}/{id}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+       // [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> GetNotificationById(int userId, int id)
         {
             try
@@ -54,7 +55,7 @@ namespace NotificationWebApi.Controllers
             }
         }
         [HttpPost]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+        //[Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> AddNotification(NotificationDTO notificationDto)
         {
             try
@@ -69,7 +70,7 @@ namespace NotificationWebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+      //  [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> UpdateNotification(int id, NotificationDTO notificationDto)
         {
             try
@@ -91,7 +92,7 @@ namespace NotificationWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
+       // [Authorize(Roles = "LeaderShip,Student,Teacher")]
         public async Task<IActionResult> DeleteNotification(int id)
         {
             try
@@ -105,13 +106,13 @@ namespace NotificationWebApi.Controllers
             }
         }
 
-        [HttpPost("{id}/check/{userId}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
-        public async Task<IActionResult> CheckNotification(int id, int userId)
+        [HttpPost("{userid}/check/{Id}")]
+      //  [Authorize(Roles = "LeaderShip,Student,Teacher")]
+        public async Task<IActionResult> CheckNotification(int userid, int Id)
         {
             try
             {
-                await _notificationRepository.CheckNotification(id, userId);
+                await _notificationRepository.CheckNotification(userid,Id);
                 return Ok();
             }
             catch (Exception ex)
@@ -120,13 +121,13 @@ namespace NotificationWebApi.Controllers
             }
         }
 
-        [HttpPost("{id}/uncheck/{userId}")]
-        [Authorize(Roles = "LeaderShip,Student,Teacher")]
-        public async Task<IActionResult> UncheckNotification(int id, int userId)
+        [HttpPost("{userid}/uncheck/{Id}")]
+       // [Authorize(Roles = "LeaderShip,Student,Teacher")]
+        public async Task<IActionResult> UncheckNotification(int userid, int Id)
         {
             try
             {
-                await _notificationRepository.UncheckNotification(id, userId);
+                await _notificationRepository.UncheckNotification(userid, Id);
                 return Ok();
             }
             catch (Exception ex)
@@ -134,5 +135,24 @@ namespace NotificationWebApi.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+        [HttpGet("unread/{userId}")]
+        // [Authorize(Roles = "LeaderShip,Student,Teacher")]
+        public async Task<ActionResult<List<Notification>>> GetUnReadNotification(int userId)
+        {
+            var unreadNotifications = await _notificationRepository.GetUnReadNotification(userId);
+
+            return unreadNotifications;
+        }
+
+        // GET: api/notifications/read/{userId}
+        [HttpGet("read/{userId}")]
+        // [Authorize(Roles = "LeaderShip,Student,Teacher")]
+        public async Task<ActionResult<List<Notification>>> GetReadNotification(int userId)
+        {
+            var readNotifications = await _notificationRepository.GetReadNotification(userId);
+
+            return readNotifications;
+        }
     }
+
 }
